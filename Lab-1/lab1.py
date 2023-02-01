@@ -38,7 +38,7 @@ def methodsList():
     return {'List:': customList, 'maximum': max(customList), 'indexMax': indexMaximum, 'arithmetic mean': srZn}
 
 
-#реализация варианта в ручную
+# реализация варианта в ручную
 def customList():
     customList = []
     s = 0
@@ -52,7 +52,7 @@ def customList():
             while lenList(customList) < length:
                 elem = input()
                 if elem.isdigit():
-                    customList.append(int(elem))
+                    customList += [int(elem)]
                 else:
                     print("It`s not a number!")
                     return {"List": customList}
@@ -68,7 +68,7 @@ def customList():
     i = indexMax + 1
     while i < lenList(customList):
         if customList[i] < srZn:
-            customList.pop(i)
+            customList = customList[:i] + customList[i + 1:]
         else:
             i += 1
     return {'List:': customList, 'maximum': maxEl, 'indexMax': indexMax, 'arithmetic mean': srZn}
