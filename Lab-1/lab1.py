@@ -1,7 +1,9 @@
 import random
 
+from numpy import number
 
-# функция нахождения длины списка
+
+# custom lengthList
 def lenList(array):
     count = 0
     for c in array:
@@ -9,69 +11,82 @@ def lenList(array):
     return count
 
 
-# реализация варианта готовыми методами
+# custom sumList
+def sumList(array):
+    sum_list = 0
+    for i in array:
+        sum_list += i
+    return sum_list
+
+
+# custom maxList
+def maxList(array):
+    maximum = array[0]
+    for i in array:
+        if maximum < i:
+            maximum = i
+    return maximum
+
+
+# methodsFunc
 def methodsList():
-    customList = []
+    custom_List = []
     length = int(input("enter the length of the future list: "))
+    if length == 0:
+        return []
     match input("Filling in randomly or manually: (r or m) "):
         case "r":
-            customList = [random.randint(0, 10) for _ in range(0, length)]
+            custom_List = [random.randint(0, 10) for _ in range(0, length)]
         case "m":
-            while len(customList) < length:
+            while len(custom_List) < length:
                 elem = input()
                 if elem.isdigit():
-                    customList.append(int(elem))
+                    custom_List.append(int(elem))
                 else:
                     print("It`s not a number!")
-                    return {"List": customList}
+                    return {"List": custom_List}
         case _:
             print("Error!")
-    print("List: ", customList)
-    indexMaximum = customList.index(max(customList))
-    srZn: float = sum(customList) / len(customList)
+    print("List: ", custom_List)
+    indexMaximum = custom_List.index(max(custom_List))
+    srZn: float = sum(custom_List) / len(custom_List)
     i = indexMaximum + 1
-    while i < len(customList):
-        if customList[i] < srZn:
-            del customList[i]
+    while i < len(custom_List):
+        if custom_List[i] < srZn:
+            del custom_List[i]
         else:
             i += 1
-    return {'List:': customList, 'maximum': max(customList), 'indexMax': indexMaximum, 'arithmetic mean': srZn}
+    return {'List:': custom_List, 'maximum': max(custom_List), 'indexMax': indexMaximum, 'arithmetic mean': srZn}
 
 
-# реализация варианта в ручную
+# customMethods
 def customList():
-    customList = []
-    s = 0
-    maxEl = 0
-    indexMax = 0
-    length = int(input("enter the length of the future list: "))
+    custom_List: list = []
+    length: int = int(input("enter the length of the future list: "))
+    if length == 0:
+        return []
     match input("Filling in randomly or manually: (r or m) "):
         case "r":
-            customList = [random.randint(0, 10) for _ in range(0, length)]
+            custom_List = [random.randint(0, 10) for _ in range(0, length)]
         case "m":
-            while lenList(customList) < length:
-                elem = input()
-                if elem.isdigit():
-                    customList += [int(elem)]
-                else:
+            while lenList(custom_List) < length:
+                elem: str = input()
+                try:
+                    custom_List += [int(elem)]
+                except Exception as e:
                     print("It`s not a number!")
-                    return {"List": customList}
+                    return {"List": custom_List}
         case _:
             print("Error!")
-    print("List: ", customList)
-    for i in range(0, len(customList)):
-        s += customList[i]
-        if maxEl < customList[i]:
-            maxEl = customList[i]
-            indexMax = i
-    srZn = s / lenList(customList)
-    i = indexMax + 1
-    while i < lenList(customList):
-        if customList[i] < srZn:
-            customList = customList[:i] + customList[i + 1:]
+    print("List: ", custom_List)
+    srZn: float = sumList(custom_List) / lenList(custom_List)
+    i: int = custom_List.index(maxList(custom_List)) + 1
+    while i < lenList(custom_List):
+        if custom_List[i] < srZn:
+            custom_List = custom_List[:i] + custom_List[i + 1:]
         else:
             i += 1
-    return {'List:': customList, 'maximum': maxEl, 'indexMax': indexMax, 'arithmetic mean': srZn}
+    return {'List:': custom_List, 'maximum': maxList(custom_List), 'indexMax': custom_List.index(maxList(custom_List)), 'arithmetic mean': srZn}
 
 
 match input("Methods or Custom? (m or c): "):
