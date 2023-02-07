@@ -14,7 +14,7 @@ def saveTxt(initial, result):
 
 
 def saveNpz(initial, result):
-    np.savez_compressed('file.npz', matrix=initial, newMatrix=result)
+    np.savez_compressed('file.npz', matrix=initial, newMatrix=result, fmt="%.2f")
     finalRes = np.load('file.npz')
     old = finalRes['matrix']
     new = finalRes['newMatrix']
@@ -32,13 +32,8 @@ def matrixVariable():
     # save newMatrix and initial matrix
     print('Initial matrix:', matrix, 'MaximumEl:', maxMatrix, sep='\n')
     np.round(newMatrix, 2)
-    match input ("wanna save .txt or .npz? "):
-        case ".txt":
-            print(saveTxt(matrix, newMatrix))
-        case ".npz":
-            saveNpz(matrix, newMatrix)
-        case _:
-            print("-_-")
+    print(saveTxt(matrix, newMatrix))
+    saveNpz(matrix, newMatrix)
 
 
 try:
