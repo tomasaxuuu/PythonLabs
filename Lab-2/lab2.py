@@ -1,5 +1,25 @@
+import os
 import numpy
 import numpy as np
+
+
+def saveTxt(initial, result):
+    numpy.savetxt("file1.txt", initial, fmt="%.1d")
+    numpy.savetxt("file2.txt", result, fmt="%.2f")
+    open("result.txt", "w").write(open("file1.txt", "r").read() + "\n\n" + open("file2.txt", "r").read())
+    os.remove("file1.txt")
+    os.remove("file2.txt")
+    content = numpy.loadtxt("result.txt")
+    return content
+
+
+def saveNpz(initial, result):
+    np.savez_compressed('file.npz', matrix=initial, newMatrix=result)
+    finalRes = np.load('file.npz')
+    old = finalRes['matrix']
+    new = finalRes['newMatrix']
+    np.round(new, 2)
+    print("\nOld:", old, "New:", new, sep="\n")
 
 
 def matrixVariable():
@@ -9,17 +29,19 @@ def matrixVariable():
     maxMatrix = numpy.amax(matrix)
     # divide matrix[i] on maxNumber
     newMatrix = np.divide(matrix, maxMatrix)
-    # matrix[maxNumber] = maxNumber (not maxNumber / maxNumber)
-    newMatrix[newMatrix == 1] = maxMatrix
-    # around 2
+    # save newMatrix and initial matrix
+    print('Initial matrix:', matrix, 'MaximumEl:', maxMatrix, sep='\n')
     np.round(newMatrix, 2)
-    numpy.savetxt("file1.txt", newMatrix, fmt="%.2f")
-    content = numpy.loadtxt('file1.txt')
-
-    return {'matrix': matrix, 'maximum': maxMatrix, 'resultMatrix': newMatrix, 'fileMatrix': content}
+    match input ("wanna save .txt or .npz? "):
+        case ".txt":
+            print(saveTxt(matrix, newMatrix))
+        case ".npz":
+            saveNpz(matrix, newMatrix)
+        case _:
+            print("-_-")
 
 
 try:
-    print(matrixVariable())
+    matrixVariable()
 except Exception as e:
     print(e)
