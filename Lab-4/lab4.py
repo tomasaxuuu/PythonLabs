@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 # класс отдельного айтема для его инициализации в данных и выводе на экран при добавлении
-class Item():
+class Item:
     # инициализация полей
     def __init__(self, number: int, width: int, longitude: int, temperature: int, date: datetime):
         self.number = number
@@ -23,6 +23,8 @@ class Item():
 
 
 class DataFile(Item):
+    it = 0
+
     def __init__(self, path):
         self.prod = None
         self.path = path
@@ -33,7 +35,12 @@ class DataFile(Item):
         return iter(self.data)
 
     def __next__(self):
-        return next(self.s)
+        if self.it <= len(self.data):
+            current = self.it
+            self.it += 1
+            return current
+        else:
+            raise StopIteration
 
     # перегрузка методов __repr__ и  __str__ для вывода данных из файла
     def __str__(self):
@@ -108,6 +115,10 @@ print("\nИтератор:\n")
 for row in data:
     print(row)
 print('\n')
+
+iterator = iter(data)
+print(next(iterator))
+print(next(iterator))
 
 # получение элемента через getItem
 print(data.__getitem__(int(input("Enter number of elem: "))))
