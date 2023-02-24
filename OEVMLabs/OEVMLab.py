@@ -40,3 +40,4 @@ for drive in c.Win32_LogicalDisk():
     # prints all the drives details including name, type and size
     print(drive)
     print(drive.Caption, drive.VolumeName, DRIVE_TYPES[drive.DriveType])
+    
